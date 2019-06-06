@@ -1,57 +1,83 @@
-# Unit 6 | Assignment - What's the Weather Like?
+# Employee Database: A Mystery in Two Parts
+
+![sql.png](sql.png)
 
 ## Background
 
-Whether financial, political, or social -- data's true power lies in its ability to answer questions definitively. So let's take what you've learned about Python requests, APIs, and JSON traversals to answer a fundamental question: "What's the weather like as we approach the equator?"
+It is a beautiful spring day, and it is two weeks since you have been hired as a new data engineer at Pewlett Hackard. Your first major task is a research project on employees of the corporation from the 1980s and 1990s. All that remain of the database of employees from that period are six CSV files.
 
-Now, we know what you may be thinking: _"Duh. It gets hotter..."_
+In this assignment, you will design the tables to hold data in the CSVs, import the CSVs into a SQL database, and answer questions about the data. In other words, you will perform:
 
-But, if pressed, how would you **prove** it?
+1. Data Modeling
 
-![Equator](Images/equatorsign.png)
+2. Data Engineering
 
-## WeatherPy
+3. Data Analysis
 
-In this example, you'll be creating a Python script to visualize the weather of 500+ cities across the world of varying distance from the equator. To accomplish this, you'll be utilizing a [simple Python library](https://pypi.python.org/pypi/citipy), the [OpenWeatherMap API](https://openweathermap.org/api), and a little common sense to create a representative model of weather across world cities.
+## Instructions
 
-Your objective is to build a series of scatter plots to showcase the following relationships:
+#### Data Modeling
 
-* Temperature (F) vs. Latitude
-* Humidity (%) vs. Latitude
-* Cloudiness (%) vs. Latitude
-* Wind Speed (mph) vs. Latitude
+Inspect the CSVs and sketch out an ERD of the tables. Feel free to use a tool like [http://www.quickdatabasediagrams.com](http://www.quickdatabasediagrams.com).
 
-Your final notebook must:
+#### Data Engineering
 
-* Randomly select **at least** 500 unique (non-repeat) cities based on latitude and longitude.
-* Perform a weather check on each of the cities using a series of successive API calls.
-* Include a print log of each city as it's being processed with the city number and city name.
-* Save both a CSV of all data retrieved and png images for each scatter plot.
+* Use the information you have to create a table schema for each of the six CSV files. Remember to specify data types, primary keys, foreign keys, and other constraints.
 
-As final considerations:
+* Import each CSV file into the corresponding SQL table.
 
-* You must complete your analysis using a Jupyter notebook.
-* You must use the Matplotlib or Pandas plotting libraries.
-* You must include a written description of three observable trends based on the data.
-* You must use proper labeling of your plots, including aspects like: Plot Titles (with date of analysis) and Axes Labels.
-* See [Example Solution](WeatherPy_Example.pdf) for a reference on expected format.
+#### Data Analysis
 
-## Hints and Considerations
+Once you have a complete database, do the following:
 
-* The city data is generated based on random coordinates; as such, your outputs will not be an exact match to the provided starter notebook.
+1. List the following details of each employee: employee number, last name, first name, gender, and salary.
 
-* You may want to start this assignment by refreshing yourself on the [geographic coordinate system](http://desktop.arcgis.com/en/arcmap/10.3/guide-books/map-projections/about-geographic-coordinate-systems.htm).
+2. List employees who were hired in 1986.
 
-* Next, spend the requisite time necessary to study the OpenWeatherMap API. Based on your initial study, you should be able to answer  basic questions about the API: Where do you request the API key? Which Weather API in particular will you need? What URL endpoints does it expect? What JSON structure does it respond with? Before you write a line of code, you should be aiming to have a crystal clear understanding of your intended outcome.
+3. List the manager of each department with the following information: department number, department name, the manager's employee number, last name, first name, and start and end employment dates.
 
-* A starter code for Citipy has been provided. However, if you're craving an extra challenge, push yourself to learn how it works: [citipy Python library](https://pypi.python.org/pypi/citipy). Before you try to incorporate the library into your analysis, start by creating simple test cases outside your main script to confirm that you are using it correctly. Too often, when introduced to a new library, students get bogged down by the most minor of errors -- spending hours investigating their entire code -- when, in fact, a simple and focused test would have shown their basic utilization of the library was wrong from the start. Don't let this be you!
+4. List the department of each employee with the following information: employee number, last name, first name, and department name.
 
-* Part of our expectation in this challenge is that you will use critical thinking skills to understand how and why we're recommending the tools we are. What is Citipy for? Why would you use it in conjunction with the OpenWeatherMap API? How would you do so?
+5. List all employees whose first name is "Hercules" and last names begin with "B."
 
-* In building your script, pay attention to the cities you are using in your query pool. Are you getting coverage of the full gamut of latitudes and longitudes? Or are you simply choosing 500 cities concentrated in one region of the world? Even if you were a geographic genius, simply rattling 500 cities based on your human selection would create a biased dataset. Be thinking of how you should counter this. (Hint: Consider the full range of latitudes).
+6. List all employees in the Sales department, including their employee number, last name, first name, and department name.
 
-* Lastly, remember -- this is a challenging activity. Push yourself! If you complete this task, then you can safely say that you've gained a strong mastery of the core foundations of data analytics and it will only go better from here. Good luck!
+7. List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name.
 
-## Copyright
+8. In descending order, list the frequency count of employee last names, i.e., how many employees share each last name.
 
-Data Boot Camp © 2018. All Rights Reserved.
+## Bonus (Optional)
+
+As you examine the data, you are overcome with a creeping suspicion that the dataset is fake. You surmise that your boss handed you spurious data in order to test the data engineering skills of a new employee. To confirm your hunch, you decide to take the following steps to generate a visualization of the data, with which you will confront your boss:
+
+1. Import the SQL database into Pandas. (Yes, you could read the CSVs directly in Pandas, but you are, after all, trying to prove your technical mettle.) This step may require some research. Feel free to use the code below to get started. Be sure to make any necessary modifications for your username, password, host, port, and database name:
+
+   ```sql
+   from sqlalchemy import create_engine
+   engine = create_engine('postgresql://localhost:5432/<your_db_name>')
+   connection = engine.connect()
+   ```
+
+* Consult [SQLAlchemy documentation](https://docs.sqlalchemy.org/en/latest/core/engines.html#postgresql) for more information.
+
+* If using a password, do not upload your password to your GitHub repository. See [https://www.youtube.com/watch?v=2uaTPmNvH0I](https://www.youtube.com/watch?v=2uaTPmNvH0I) and [https://martin-thoma.com/configuration-files-in-python/](https://martin-thoma.com/configuration-files-in-python/) for more information.
+
+2. Create a bar chart of average salary by title.
+
+3. You may also include a technical report in markdown format, in which you outline the data engineering steps taken in the homework assignment.
+
+## Epilogue
+
+Evidence in hand, you march into your boss's office and present the visualization. With a sly grin, your boss thanks you for your work. On your way out of the office, you hear the words, "Search your ID number." You look down at your badge to see that your employee ID number is 499942.
+
+## Submission
+
+* Create an image file of your ERD.
+
+* Create a `.sql` file of your table schemata.
+
+* Create a `.sql` file of your queries.
+
+* (Optional) Create a Jupyter Notebook of the bonus analysis.
+
+* Create and upload a repository with the above files to GitHub and post a link on BootCamp Spot.
